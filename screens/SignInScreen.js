@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, AsyncStorage } from 'react-native';
 
-import classNames from 'react-native-classnames';
+import { USERNAME } from '../constants/StorageKeys';
 
 export default class SignInScreen extends Component {
     state = {
@@ -11,27 +11,43 @@ export default class SignInScreen extends Component {
         auth: {}
     };
 
-    onChangeText = (key) => (value) => {
+    _onChangeText = (key) => (value) => {
         this.setState({
             [key]: value
         });
     };
 
-    signIn() {
+    _signIn = async () => {
         const {username, password} = this.state;
-        // TODO
-        this.setState({
-            auth: {
-                signInError: true
+        if (username && password) {
+            try {
+                await AsyncStorage.setItem(USERNAME, username);
+                this.props.navigation.navigate('Main');
+            } catch (e) {
+                console.error(e);
+                this.setState({
+                    auth: {
+                        signInError: true,
+                        errorMessage: ''
+                    }
+                });
             }
-        });
-    }
+        } else {
+            this.setState({
+                auth: {
+                    signInError: true,
+                    errorMessage: 'Username and Password are required!'
+                }
+            });
+        }
+    };
 
     render() {
         const {
             auth: {
                 isAuthenticating,
-                signInError
+                signInError,
+                errorMessage
             }
         } = this.state;
         return (
@@ -43,12 +59,12 @@ export default class SignInScreen extends Component {
                     <TextInput
                         placeholder="User Name"
                         type='username'
-                        onChangeText={this.onChangeText('username')}
+                        onChangeText={this._onChangeText('username')}
                     />
                     <TextInput
                         placeholder="Password"
                         type='password'
-                        onChangeText={this.onChangeText('password')}
+                        onChangeText={this._onChangeText('password')}
                         secureTextEntry
                         style={styles.mT1}
                     />
@@ -57,15 +73,12 @@ export default class SignInScreen extends Component {
                     <Button
                         isLoading={isAuthenticating}
                         title='Sign In'
-                        onPress={this.signIn.bind(this)}
+                        onPress={this._signIn}
                     />
                 </View>
-                <!--Text style={[styles.errorMessage, classNames(styles, {colorError: signInError})]}>
-                    Some error occurred, please try again.
-                </Text-->
                 {signInError &&
                 <Text style={[styles.errorMessage]}>
-                    Ops! Some error occurred, please try again.
+                    {errorMessage ? errorMessage : 'Ops! Some error occurred'}, please try again.
                 </Text>
                 }
             </View>

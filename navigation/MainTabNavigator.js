@@ -6,6 +6,22 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import GraphScreen from '../screens/GraphScreen';
+import EventsScreen from '../screens/EventsScreen';
+
+const GraphStack = createStackNavigator({
+  Graph: GraphScreen,
+});
+
+GraphStack.navigationOptions = {
+  tabBarLabel: 'You',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-heart' : 'md-heart'}
+    />
+  ),
+};
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -18,9 +34,23 @@ HomeStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-home${focused ? '' : ''}`
+          : 'md-home'
       }
+    />
+  ),
+};
+
+const EventsStack = createStackNavigator({
+  Events: EventsScreen,
+});
+
+EventsStack.navigationOptions = {
+  tabBarLabel: 'Events',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'}
     />
   ),
 };
@@ -54,7 +84,7 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
+  EventsStack,
   HomeStack,
-  LinksStack,
-  SettingsStack,
+  GraphStack,
 });

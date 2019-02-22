@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Button,
   Image,
   Platform,
   ScrollView,
@@ -22,18 +23,18 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
           <View style={styles.welcomeContainer}>
-            <Image
+            {/* <Image
               source={
                 __DEV__
                   ? require('../assets/images/robot-dev.png')
                   : require('../assets/images/robot-prod.png')
               }
               style={styles.welcomeImage}
-            />
+            /> */}
           </View>
 
           <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
+            {/* {this._maybeRenderDevelopmentModeWarning()}
 
             <Text style={styles.getStartedText}>Get started by opening</Text>
 
@@ -43,13 +44,23 @@ export default class HomeScreen extends React.Component {
 
             <Text style={styles.getStartedText}>
               Change this text and your app will automatically reload.
-            </Text>
+            </Text> */}
           </View>
 
           <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
+            {/* <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
               <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+
+            <Button
+              title='this button rules'
+              onPress={() => {
+                /* 1. Navigate to the Details route with params */
+                this.props.navigation.navigate('Graph', {
+                  itemId: 86,
+                  otherParam: 'anything you want here',
+                });
+              }} />
           </View>
         </ScrollView>
 

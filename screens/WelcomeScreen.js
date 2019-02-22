@@ -10,7 +10,7 @@ export default class WelcomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Text> who cares? </Text>
-        <Button title="sign in" onPress={this._showMoreApp} />
+        <Button title="sign in" onPress={this._signIn} />
         <Button title="log in" onPress={this._showMoreApp} />
       </View>
     );
@@ -19,6 +19,10 @@ export default class WelcomeScreen extends React.Component {
   _showMoreApp = () => {
     this.props.navigation.navigate('Main');
   };
+
+  _signIn = () => {
+    this.props.navigation.navigate('SignIn');
+  }
 
 }
 
